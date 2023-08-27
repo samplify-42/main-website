@@ -3,7 +3,7 @@
   align-items: center;
   padding-right: 3%;
   height: 60px;
-  background-color: #01010166;
+  background-color: #293a57;
 }
 
 .navbar.navbar-fixed {
@@ -40,29 +40,11 @@
   justify-content: space-around;
 }
 
-.div_auth_navbar {
-  display: flex;
-  justify-content: center;
-  width: 15%;
-  border: 2px;
-  border-style: solid;
-  border-color: white;
-  border-radius: 6px;
-  margin-right: auto;
-}
-
-.btn_connexion {
-  margin: auto;
-}
-
-.btn_inscription {
-  margin: auto;
-}
-
 .div_marketplace_navbar {
   width: 50%;
   display: flex;
   margin-right: auto;
+  justify-content: center;
 }
 
 .div_navigation_navbar {
@@ -71,10 +53,21 @@
   justify-content: center;
 }
 
-.btn_accueil,
-.btn_roadmap,
-.btn_team {
+.btn_accueil_navbar,
+.btn_aide_navbar {
   color: white;
+  margin: auto;
+}
+
+.div_accueil_aide_navbar{
+  display: flex;
+  justify-content: center;
+  width: 15%;
+}
+
+.btn_profile_navbar,
+.btn_deconnexion_navbar {
+  color: #ffb700;
   margin: auto;
 }
 
