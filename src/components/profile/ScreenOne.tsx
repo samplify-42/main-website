@@ -4,10 +4,10 @@ import { Card } from './Card';
 import { Dropzone } from '@mantine/dropzone';
 import axios from 'axios';
 import { notifications } from '@mantine/notifications';
+import { AxiosService, AxiosServiceFormData } from '../../utils/AxiosService';
 
-export const ScreenOne = () => {
+export const ScreenOne = ({ nft }: { nft?: { title: string, price: string, description: string }[] }) => {
   const [modalOpen, setModalOpen] = useState(false);
-
   const [uploadedFileSample, setUploadedFileSample] = useState<File | null>(null);
   const [uploadedFileImage, setUploadedFileImage] = useState<File | null>(null);
   const [title, setTitle] = useState<string>("")
@@ -56,32 +56,26 @@ export const ScreenOne = () => {
       formData.append('numberEdition', number);
       formData.append('price', price);
       formData.append('sample', uploadedFileSample);
+      // formData.append('cover', uploadedFileImage)
       formData.append('tags', 'niska');
       formData.append('tags', 'rap');
 
-      const config = {
-        headers: {
-          'content-type': 'multipart/form-data',
-          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGJmZDBiMTEzZWZkYzFiNGJjNTNlZjkiLCJlbWFpbCI6InRlc3RAYWFhLmNvbSIsInVzZXJuYW1lIjoidGVzdCIsImxhc3RuYW1lIjoidGVzdDIiLCJmaXJzdG5hbWUiOiJ0ZXN0MiIsInR5cGUiOiJ1c2VyIiwibGFuZ3VhZ2UiOiJmciIsImJpcnRoRGF0ZSI6IjE5OTQtMDMtMDRUMjM6MDA6MDAuMDAwWiIsInBob3RvVXJsIjoiaHR0cHM6Ly91cGxvYWQud2lraW1lZGlhLm9yZy93aWtpcGVkaWEvY29tbW9ucy90aHVtYi9kL2Q5L05vZGUuanNfbG9nby5zdmcvMTIwMHB4LU5vZGUuanNfbG9nby5zdmcucG5nIiwiaXNBY3RpdmF0ZWQiOmZhbHNlLCJpc0NyZWF0b3IiOmZhbHNlLCJkZWxldGVkQXQiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjMtMDctMjVUMTM6NDA6MDEuOTcyWiIsInVwZGF0ZWRBdCI6IjIwMjMtMDctMjVUMTM6NDA6MDEuOTcyWiIsIl9fdiI6MCwiaWF0IjoxNjkwODEzOTc3LCJleHAiOjE2OTA5MDAzNzd9.WC6Wjv717YfSTsAtkGN-TwX4if7w2H3dn62-UNRquuI`, // Ajoutez l'en-tête d'autorisation avec le bearer token
-        },
-      };
-      axios.post('http://localhost:3000/api/nft', formData, config)
-        .then(() => {
-          setTimeout(() => {
-            console.log("Delayed for 1 second.");
-            notifications.show({
-              title: 'Succes',
-              message: "félicitation votre sample a bien été ajouté. 🤥",
-              color: 'green',
-              style: { backgroundColor: 'white' }
-            })
-            handleModalClose();
-          }, 1000);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      return
+      AxiosServiceFormData("POST", "/nft", formData)
+      .then((res) => {
+        console.log("res", res)
+        setTimeout(() => {
+          notifications.show({
+            title: 'Succes',
+            message: "félicitation votre sample a bien été ajouté. 🤥",
+            color: 'green',
+            style: { backgroundColor: 'white' }
+          })
+          handleModalClose();
+        }, 1000);
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     } else {
       notifications.show({
         title: 'Erreur',
@@ -99,7 +93,6 @@ export const ScreenOne = () => {
         style={{
           alignItems: 'center',
           maxHeight: '65vh',
-          overflow: 'auto',
         }}
       >
         <Flex
@@ -109,8 +102,9 @@ export const ScreenOne = () => {
             marginBottom: '40px',
           }}
         >
-          <Card />
-          <Card />
+          {nft ? nft.map((nf: any) => (
+            <Card key={nf._id} title={nf.title} price={nf.price} description={nf.description} />
+          )) : <>Vous ne possedez pas encore de nft</>}
         </Flex>
       </Flex>
       <Flex
@@ -136,7 +130,7 @@ export const ScreenOne = () => {
           }}>Ajouter un sample</Title>
           <Flex direction='row'>
             <Dropzone style={{
-              width:'50%'
+              width: '50%'
             }} onDrop={handleDropSample} accept={['audio/*']} multiple={false}>
               {uploadedFileSample ? (
                 <Group position="center" style={{ height: '100px', marginBottom: '20px' }}>
@@ -146,10 +140,10 @@ export const ScreenOne = () => {
                   <button onClick={handleUpload}>Upload MP3</button>
                 </Group>
               ) : (
-                <Group position="center" style={{ width:'100%', height: '100px', marginBottom: '20px' }}>
+                <Group position="center" style={{ width: '100%', height: '100px', marginBottom: '20px' }}>
                   <Flex direction={'column'} style={{
-                    justifyContent:'center',
-                    alignItems:'center'
+                    justifyContent: 'center',
+                    alignItems: 'center'
                   }}>
                     <Text>Sample</Text>
                     <Text style={{ textAlign: 'center' }} color="gray">
@@ -160,7 +154,7 @@ export const ScreenOne = () => {
               )}
             </Dropzone>
             <Dropzone style={{
-              width:'50%'
+              width: '50%'
             }} onDrop={handleDropImage} accept={['image/*']} multiple={false}>
               {uploadedFileImage ? (
                 <Group position="center" style={{ height: '100px', marginBottom: '20px' }}>
@@ -170,10 +164,10 @@ export const ScreenOne = () => {
                   <button onClick={handleUpload}>Upload Image</button>
                 </Group>
               ) : (
-                <Group position="center" style={{ width:'100%', height: '100px', marginBottom: '20px' }}>
+                <Group position="center" style={{ width: '100%', height: '100px', marginBottom: '20px' }}>
                   <Flex direction={'column'} style={{
-                    justifyContent:'center',
-                    alignItems:'center'
+                    justifyContent: 'center',
+                    alignItems: 'center'
                   }}>
                     <Text>Image</Text>
                     <Text style={{ textAlign: 'center' }} color="gray">
@@ -212,29 +206,5 @@ export const ScreenOne = () => {
         </Flex>
       </Modal>
     </>
-  );
-};
-
-export const ScreenTwo = () => {
-  return (
-    <Flex
-      direction="column"
-      style={{
-        width: '100%',
-        alignItems: 'center',
-        height: '50vh',
-        maxHeight: '50vh',
-        overflow: 'auto',
-      }}
-    >
-      <Flex
-        direction="column"
-        style={{
-          width: '100%',
-          alignItems: 'center',
-          marginBottom: '40px',
-        }}
-      ></Flex>
-    </Flex>
   );
 };

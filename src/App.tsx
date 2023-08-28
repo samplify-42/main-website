@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from './pages/Home';
-import Navbar from './components/navbar/NavBar';
 import { Profile } from "./pages/Profile";
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';

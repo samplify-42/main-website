@@ -1,13 +1,17 @@
 import { Button, Flex } from "@mantine/core";
 import { Sidebar } from "../components/profile/SideBar";
 import { useState, useEffect } from "react";
-import { ScreenOne, ScreenTwo } from "../components/profile/Screen";
+import { ScreenOne } from "../components/profile/ScreenOne";
+import { ScreenTwo } from "../components/profile/ScreenTwo";
 import Navbar from "../components/navbar/NavBar";
+import { AxiosService } from "../utils/AxiosService";
+import { setCookie } from "../utils/Cookies";
 
 export const Profile = () => {
   const initialScreen = parseInt(localStorage.getItem("screen") || "0", 10);
   const [screen, setScreen] = useState(initialScreen);
   const [showSidebar, setShowSidebar] = useState(window.innerWidth >= 900);
+  const [nft, setNft] = useState<any[]>([])
 
   const handleButtonOnePress = () => {
     setScreen(0);
@@ -16,6 +20,27 @@ export const Profile = () => {
   const handleButtonTwoPress = () => {
     setScreen(1);
   };
+
+  useEffect(() => {
+    AxiosService("GET","/nft?owner=1")
+    .then((response) => {
+      setNft(response.nft)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }, [])
+
+  const Login= async(username:string,password:string)=>{
+    //@ts-ignore
+    AxiosService("POST","/auth/login", {username, password})
+    .then((res)=>{
+      setCookie("token",res.token,"/")
+    }).catch((err)=>{
+      // TODO: redirect to login page
+      console.log(err)
+    })
+  }
 
   useEffect(() => {
     localStorage.setItem("screen", screen.toString());
@@ -40,6 +65,7 @@ export const Profile = () => {
 				paddingTop:'51px'
       }}
     >
+      <button onClick={(()=>{Login("test","1234567890")})}>Login</button>
 			<Navbar />
       {showSidebar && <Sidebar />}
       <Flex
@@ -81,7 +107,7 @@ export const Profile = () => {
             Mes achats
           </Button>
         </Flex>
-        {screen === 0 ? <ScreenOne /> : <ScreenTwo />}
+        {screen === 0 ? <ScreenOne nft={nft}  /> : <ScreenTwo />}
       </Flex>
     </Flex>
   );
