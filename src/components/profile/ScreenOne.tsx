@@ -2,18 +2,20 @@ import React, { useState } from 'react';
 import { Flex, Button, Modal, TextInput, Title, Group, Textarea, Text } from '@mantine/core';
 import { Card } from './Card';
 import { Dropzone } from '@mantine/dropzone';
-import axios from 'axios';
 import { notifications } from '@mantine/notifications';
-import { AxiosService, AxiosServiceFormData } from '../../utils/AxiosService';
+import { AxiosServiceFormData } from '../../utils/AxiosService';
+import { Sample } from '../../Interface/Sample';
 
-export const ScreenOne = ({ nft }: { nft?: { title: string, price: string, description: string }[] }) => {
+export const ScreenOne = ({ nft, setNft }: { nft: Sample[], setNft: any }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [uploadedFileSample, setUploadedFileSample] = useState<File | null>(null);
   const [uploadedFileImage, setUploadedFileImage] = useState<File | null>(null);
   const [title, setTitle] = useState<string>("")
   const [price, setPrice] = useState<string>("")
-  const [number, setNumber] = useState<string>("")
+  const [quantity, setQuantity] = useState<string>("")
   const [description, setDescription] = useState<string>("")
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -28,7 +30,7 @@ export const ScreenOne = ({ nft }: { nft?: { title: string, price: string, descr
   };
 
   const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNumber(event.target.value);
+    setQuantity(event.target.value);
   };
 
   const handleModalClose = () => {
@@ -38,44 +40,61 @@ export const ScreenOne = ({ nft }: { nft?: { title: string, price: string, descr
   };
 
   const handleDropSample = (file: File[]) => {
-    console.log(file[0])
     setUploadedFileSample(file[0]);
   };
 
   const handleDropImage = (file: File[]) => {
-    console.log(file[0]);
     setUploadedFileImage(file[0]);
   }
 
   const handleUpload = () => {
-    if (uploadedFileSample && title && description && number && price) {
+    if (uploadedFileSample && title && description && quantity && price) {
       const formData = new FormData();
 
       formData.append('title', title);
       formData.append('description', description);
-      formData.append('numberEdition', number);
+      formData.append('numberEdition', quantity);
       formData.append('price', price);
       formData.append('sample', uploadedFileSample);
-      // formData.append('cover', uploadedFileImage)
+      // formData.append('cover', uploadedFileImage);
       formData.append('tags', 'niska');
       formData.append('tags', 'rap');
-
+      setIsLoading(true);
       AxiosServiceFormData("POST", "/nft", formData)
-      .then((res) => {
-        console.log("res", res)
-        setTimeout(() => {
+        .then((res) => {
+          setIsLoading(false);
+          if (uploadedFileSample) {
+            console.log("res", res)
+            handleModalClose();
+            const tmpNfts = nft;
+              const newSample: Sample = {
+                title: title,
+                price: price,
+                description: description,
+                sample: uploadedFileSample,
+                quantity: quantity,
+                tags: [""],
+              }
+              tmpNfts && tmpNfts.push(newSample);
+              setNft(tmpNfts)
+              notifications.show({
+                title: 'Succes',
+                message: "félicitation, votre sample a bien été ajouté ! 🤥",
+                color: 'green',
+                style: { backgroundColor: 'white' }
+              })
+              console.log("okok")
+          }
+        })
+        .catch((err) => {
+          console.log(err)
           notifications.show({
-            title: 'Succes',
-            message: "félicitation votre sample a bien été ajouté. 🤥",
-            color: 'green',
+            title: 'Erreur',
+            message: "Votre sample n'a pas pu être ajouté. 🤥",
+            color: 'red',
             style: { backgroundColor: 'white' }
           })
-          handleModalClose();
-        }, 1000);
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+        })
     } else {
       notifications.show({
         title: 'Erreur',
@@ -100,25 +119,20 @@ export const ScreenOne = ({ nft }: { nft?: { title: string, price: string, descr
           style={{
             alignItems: 'center',
             marginBottom: '40px',
+            height: '800px',
+            overflow: 'auto',
           }}
         >
           {nft ? nft.map((nf: any) => (
             <Card key={nf._id} title={nf.title} price={nf.price} description={nf.description} />
-          )) : <>Vous ne possedez pas encore de nft</>}
+          )).reverse() : <>Vous ne possedez pas encore de nft</>}
         </Flex>
-      </Flex>
-      <Flex
-        style={{
-          width: '100%',
-          justifyContent: 'center',
-        }}
-      >
         <Button color="dark" onClick={() => { setModalOpen(true); }}>
           +
         </Button>
       </Flex>
 
-      <Modal opened={modalOpen} onClose={handleModalClose}>
+      <Modal style={{ zIndex: '999' }} opened={modalOpen} onClose={handleModalClose}>
         <Flex direction='column' style={{
           height: '500px',
           justifyContent: 'space-between',
@@ -202,7 +216,7 @@ export const ScreenOne = ({ nft }: { nft?: { title: string, price: string, descr
             label="Description"
             withAsterisk
           />
-          <Button onClick={handleUpload} color='dark'>Valider</Button>
+          <Button loading={isLoading} onClick={handleUpload} color='dark'>Valider</Button>
         </Flex>
       </Modal>
     </>

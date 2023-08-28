@@ -6,12 +6,13 @@ import { ScreenTwo } from "../components/profile/ScreenTwo";
 import Navbar from "../components/navbar/NavBar";
 import { AxiosService } from "../utils/AxiosService";
 import { setCookie } from "../utils/Cookies";
+import { Sample } from "../Interface/Sample";
 
 export const Profile = () => {
   const initialScreen = parseInt(localStorage.getItem("screen") || "0", 10);
   const [screen, setScreen] = useState(initialScreen);
   const [showSidebar, setShowSidebar] = useState(window.innerWidth >= 900);
-  const [nft, setNft] = useState<any[]>([])
+  const [nft, setNft] = useState<Sample[]>([])
 
   const handleButtonOnePress = () => {
     setScreen(0);
@@ -61,20 +62,24 @@ export const Profile = () => {
 			direction={'row'}
       style={{
         width: "100vw",
-        height: "95vh",
+        height: "92vh",
 				paddingTop:'51px'
       }}
     >
-      <button onClick={(()=>{Login("test","1234567890")})}>Login</button>
 			<Navbar />
       {showSidebar && <Sidebar />}
       <Flex
         direction="column"
         style={{
-					width: "100%",
+          width: "100%",
           height: "100%",
         }}
       >
+        <Button style={{
+          width:"100px",
+          height:"30px",
+          alignSelf:'center'
+        }} onClick={(()=>{Login("test","1234567890")})}>Login</Button>
         <Flex
           style={{
             width: "100%",
@@ -107,7 +112,7 @@ export const Profile = () => {
             Mes achats
           </Button>
         </Flex>
-        {screen === 0 ? <ScreenOne nft={nft}  /> : <ScreenTwo />}
+        {screen === 0 ? <ScreenOne nft={nft} setNft={setNft}  /> : <ScreenTwo />}
       </Flex>
     </Flex>
   );
