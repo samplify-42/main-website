@@ -3,6 +3,7 @@ import { Home } from './pages/Home';
 import { Profile } from "./pages/Profile";
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
+import { Login } from "./pages/Login";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
             <Route index path='/*' element={<Home />} />
             <Route index path='/home' element={<Home />} />
             <Route index path='/profile' element={<Profile />} />
+            <Route index path='/login' element={<Login />} />
           </Route>
         </Routes>
       </BrowserRouter>
