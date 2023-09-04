@@ -32,17 +32,6 @@ export const Profile = () => {
     });
   }, [])
 
-  const Login= async(username:string,password:string)=>{
-    //@ts-ignore
-    AxiosService("POST","/auth/login", {username, password})
-    .then((res)=>{
-      setCookie("token",res.token,"/")
-    }).catch((err)=>{
-      // TODO: redirect to login page
-      console.log(err)
-    })
-  }
-
   useEffect(() => {
     localStorage.setItem("screen", screen.toString());
   }, [screen]);
@@ -75,11 +64,6 @@ export const Profile = () => {
           height: "100%",
         }}
       >
-        <Button style={{
-          width:"100px",
-          height:"30px",
-          alignSelf:'center'
-        }} onClick={(()=>{Login("test","1234567890")})}>Login</Button>
         <Flex
           style={{
             width: "100%",
