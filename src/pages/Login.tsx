@@ -9,6 +9,7 @@ import {
 } from "@mantine/core";
 import { notifications } from '@mantine/notifications';
 import { useMediaQuery } from '@mantine/hooks';
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
 
@@ -22,6 +23,8 @@ export const Login = () => {
 
   const [isLoading, setIsLoading] = useState(false)
 
+  const navigate = useNavigate();
+
   const handleInputChange = (event: any) => {
     const { name, value, type, checked } = event.currentTarget;
 
@@ -34,6 +37,7 @@ export const Login = () => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     if (formData) {
+      console.log(formData)
       setIsLoading(true)
       setTimeout(function () {
         notifications.show({
@@ -42,6 +46,7 @@ export const Login = () => {
           color: 'green',
           style: { backgroundColor: 'white' }
         })
+        navigate('/home')
         setIsLoading(false);
       }, 1000);
     } else
