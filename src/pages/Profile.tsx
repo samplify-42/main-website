@@ -5,7 +5,6 @@ import { ScreenOne } from "../components/profile/ScreenOne";
 import { ScreenTwo } from "../components/profile/ScreenTwo";
 import Navbar from "../components/navbar/NavBar";
 import { AxiosService } from "../utils/AxiosService";
-import { setCookie } from "../utils/Cookies";
 import { Sample } from "../Interface/Sample";
 
 export const Profile = () => {
@@ -13,6 +12,7 @@ export const Profile = () => {
   const [screen, setScreen] = useState(initialScreen);
   const [showSidebar, setShowSidebar] = useState(window.innerWidth >= 900);
   const [nft, setNft] = useState<Sample[]>([])
+  const [nftCreator, setNftCreator] = useState<Sample[]>([])
 
   const handleButtonOnePress = () => {
     setScreen(0);
@@ -24,6 +24,17 @@ export const Profile = () => {
 
   useEffect(() => {
     AxiosService("GET","/nft?owner=1")
+    .then((response) => {
+      console.log('🔥', response)
+      setNftCreator(response.nft)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }, [])
+
+  useEffect(() => {
+    AxiosService("GET","/nft?creator=1")
     .then((response) => {
       setNft(response.nft)
     })
@@ -93,10 +104,10 @@ export const Profile = () => {
             color="dark"
             uppercase
           >
-            Mes achats
+            Mes créations
           </Button>
         </Flex>
-        {screen === 0 ? <ScreenOne nft={nft} setNft={setNft}  /> : <ScreenTwo />}
+        {screen === 0 ? <ScreenOne nft={nft} setNft={setNft}  /> : <ScreenTwo nft={nftCreator} setNft={setNftCreator} />}
       </Flex>
     </Flex>
   );

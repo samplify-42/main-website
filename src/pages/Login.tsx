@@ -146,11 +146,11 @@ export const Login = () => {
 
             <div style={{ marginTop: 20 }}>
               <Button loading={isLoading} type="submit" radius="xl" fullWidth>
-                S'inscrire
+                Se connecter
               </Button>
             </div>
             <Flex direction='column' style={{ marginTop: '20px' }} >
-              <Text>Déjà inscrit ? <a href="login">Se connecter</a></Text>
+              <Text>Déjà inscrit ? <a href="login">S'inscrire</a></Text>
               <Text>Mot de passe <a href="foget-password">oublié</a></Text>
             </Flex>
           </div>
