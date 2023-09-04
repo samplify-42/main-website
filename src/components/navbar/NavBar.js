@@ -4,9 +4,11 @@ import logo from '../../images/logo.png';
 
 function Navbar() {
   return (
-    <section id="#myMenu" className="navbar navbar-fixed">
+    <section style={{
+      zIndex:'10'
+    }} className="navbar navbar-fixed">
       <div className="div_logo_navbar">
-        <a onClick={console.log("okokok")} href="#context" className="content-logo">
+        <a href="#context" className="content-logo">
           <img className="logo" alt="Samplify" src={logo}></img>
         </a>
       </div>
