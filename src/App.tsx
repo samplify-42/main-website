@@ -5,10 +5,12 @@ import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { Login } from "./pages/Login";
 import { getCookie } from "./utils/Cookies";
+import jwt from 'jwt-decode'
 
 function App() {
   const token = getCookie('token');
   console.log(token)
+  const user = token ? jwt(token) : null
   
   if (!token) {
     return (
@@ -31,7 +33,7 @@ function App() {
         <Routes>
           <Route path='/*' element={<Home />} />
           <Route path='/home' element={<Home />} />
-          <Route path='/profile' element={<Profile />} />
+          <Route path='/profile' element={<Profile user={user} />} />
           <Route path='/marketplace' element={<>marketplace</>} />
         </Routes>
       </BrowserRouter>

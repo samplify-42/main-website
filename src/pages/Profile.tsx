@@ -7,7 +7,7 @@ import Navbar from "../components/navbar/NavBar";
 import { AxiosService } from "../utils/AxiosService";
 import { Sample } from "../Interface/Sample";
 
-export const Profile = () => {
+export const Profile = ({user}:{user:any}) => {
   const initialScreen = parseInt(localStorage.getItem("screen") || "0", 10);
   const [screen, setScreen] = useState(initialScreen);
   const [showSidebar, setShowSidebar] = useState(window.innerWidth >= 900);
@@ -66,7 +66,7 @@ export const Profile = () => {
       }}
     >
 			<Navbar />
-      {showSidebar && <Sidebar />}
+      {showSidebar && <Sidebar user={user} />}
       <Flex
         direction="column"
         style={{

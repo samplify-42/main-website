@@ -9,8 +9,7 @@ export const Card = ({ nft }: { nft: Sample }) => {
 		console.log('delete')
 		close()
 	}
-
-	console.log(nft)
+	
 	return (
 		<Flex direction={'column'} style={{
 			border: 'solid 2px gray',
