@@ -2,9 +2,10 @@ import axios from "axios"
 import { getCookie } from "./Cookies";
 
 const baseHeader = {
-	'Content-Type': 'application/json', //multipart/form-data application/json
+	'Content-Type': 'application/json',
 	'Access-Control-Allow-Origin': "*"
 }
+
 
 export const AxiosService = (method: string, route: string, data = null) => {
 	const baseURL = "http://localhost:3000/api"
@@ -40,7 +41,10 @@ export const AxiosServiceFormData = (method: string, route: string, data: any) =
 	const config = {
 		method,
 		url: `${baseURL}${route}`,
-		headers: baseHeader,
+		headers: {
+			'Content-Type': 'multipart/form-data',
+			'Access-Control-Allow-Origin': "*"
+		},
 		data: data
 	};
 

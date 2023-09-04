@@ -25,8 +25,7 @@ export const Profile = () => {
   useEffect(() => {
     AxiosService("GET","/nft?owner=1")
     .then((response) => {
-      console.log('🔥', response)
-      setNftCreator(response.nft)
+      setNftCreator(response.nft.reverse())
     })
     .catch((error) => {
       console.log(error);

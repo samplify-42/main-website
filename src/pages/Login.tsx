@@ -21,11 +21,11 @@ export const Login = () => {
     //@ts-ignore
     await AxiosService("POST","/auth/login", {username, password})
     .then(async (res: any )=>{
-      console.log(res)
       if (res.message === 'Login successful') {
         await setCookie("token",res.token,"/")
         setIsLoading(false)
         navigate('/profile')
+        window.location.reload()
       } else if (res.message === 'Incorrect password') {
         notifications.show({
           title: 'Incorect',
@@ -44,7 +44,6 @@ export const Login = () => {
         setIsLoading(false)
       }
     }).catch((err: any)=>{
-      // TODO: redirect to login page
       console.log(err)
     })
   }
@@ -71,7 +70,6 @@ export const Login = () => {
     setIsLoading(true)
     event.preventDefault();
     if (formData) {
-      console.log(formData)
       setIsLoading(true)
       Login(formData.email, formData.password)
     } else
