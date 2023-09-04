@@ -2,7 +2,7 @@ import axios from "axios"
 import { getCookie } from "./Cookies";
 
 const baseHeader = {
-	'Content-Type': 'multipart/form-data', //multipart/form-data application/json
+	'Content-Type': 'application/json', //multipart/form-data application/json
 	'Access-Control-Allow-Origin': "*"
 }
 

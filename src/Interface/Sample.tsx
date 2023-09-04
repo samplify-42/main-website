@@ -1,7 +1,7 @@
 export type Sample = {
     title: string,
     description: string,
-    quantity: string,
+    numberEdition: string,
     price: string,
     sample: File,
     tags: string[]

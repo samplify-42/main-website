@@ -72,7 +72,7 @@ export const ScreenOne = ({ nft, setNft }: { nft: Sample[], setNft: any }) => {
                 price: price,
                 description: description,
                 sample: uploadedFileSample,
-                quantity: quantity,
+                numberEdition: quantity,
                 tags: [""],
               }
               tmpNfts && tmpNfts.push(newSample);
@@ -123,8 +123,8 @@ export const ScreenOne = ({ nft, setNft }: { nft: Sample[], setNft: any }) => {
             overflow: 'auto',
           }}
         >
-          {nft ? nft.map((nf: any) => (
-            <Card key={nf._id} title={nf.title} price={nf.price} description={nf.description} />
+          {nft ? nft.map((nf: Sample, index) => (
+            <Card key={index} nft={nf} />
           )).reverse() : <>Vous ne possedez pas encore de nft</>}
         </Flex>
         <Button color="dark" onClick={() => { setModalOpen(true); }}>
