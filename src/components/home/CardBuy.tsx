@@ -1,15 +1,16 @@
 import { Button, Flex, Text, Modal, Group, Image } from "@mantine/core";
 import { Sample } from "../../Interface/Sample";
 import { useDisclosure } from "@mantine/hooks";
+import { useState } from "react";
 
 export const CardBuy = ({ nft }: { nft: Sample }) => {
 	const [opened, { open, close }] = useDisclosure(false);
+  const [selected, setSelected] = useState()
 
-	const handleClickDelete = () => {
-		console.log('delete')
+	const handleClickBuy = () => {
+		console.log()
 		close()
 	}
-	console.log('🎶🎶', nft.imageUrl)
 
 	return (
 		<Flex direction={'column'} style={{
@@ -51,12 +52,12 @@ export const CardBuy = ({ nft }: { nft: Sample }) => {
 						justifyContent: 'space-evenly',
 						alignItems: 'center'
 					}}>
-						<Button color="green" onClick={handleClickDelete}>Oui</Button>
+						<Button color="green" onClick={handleClickBuy}>Oui</Button>
 						<Button color="red" onClick={close}>Non</Button>
 					</Flex>
 				</Modal>
 				<Flex style={{ width: '100%', justifyContent: 'end' }}>
-					<Button color="green" onClick={open}>acheter</Button>
+					<Button color="green" onClick={() => {open()}}>acheter</Button>
 				</Flex>
 			</Flex>
 		</Flex>
