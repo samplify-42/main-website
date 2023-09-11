@@ -5,6 +5,7 @@ import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { Login } from "./pages/Login";
 import { getCookie } from "./utils/Cookies";
+import { Register } from "./pages/Register";
 import jwt from 'jwt-decode'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Routes>
             <Route>
             <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
             <Route path='/*' element={<Login />} />
             </Route>
           </Routes>
@@ -34,7 +36,6 @@ function App() {
           <Route path='/*' element={<Home />} />
           <Route path='/home' element={<Home />} />
           <Route path='/profile' element={<Profile user={user} />} />
-          <Route path='/marketplace' element={<>marketplace</>} />
         </Routes>
       </BrowserRouter>
       <Notifications />

@@ -148,7 +148,7 @@ export const Login = () => {
               </Button>
             </div>
             <Flex direction='column' style={{ marginTop: '20px' }} >
-              <Text>Déjà inscrit ? <a href="login">S'inscrire</a></Text>
+              <Text>Déjà inscrit ? <a href="/register">S'inscrire</a></Text>
               <Text>Mot de passe <a href="foget-password">oublié</a></Text>
             </Flex>
           </div>
@@ -214,7 +214,7 @@ export const Login = () => {
               </Button>
             </div>
             <Flex direction='column' style={{ alignItems: 'center', marginTop: '20px' }}>
-              <Text><a href="login">S'inscrire</a></Text>
+              <Text><a href="/register">S'inscrire</a></Text>
               <Text>Mot de passe <a href="foget-password">oublié</a></Text>
             </Flex>
           </div>
