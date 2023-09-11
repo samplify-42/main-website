@@ -67,23 +67,24 @@ export const ScreenOne = ({ nft, setNft }: { nft: Sample[], setNft: any }) => {
             console.log("res", res)
             handleModalClose();
             const tmpNfts = nft;
-              const newSample: Sample = {
-                title: title,
-                price: price,
-                description: description,
-                sample: uploadedFileSample,
-                numberEdition: quantity,
-                tags: [""],
-              }
-              tmpNfts && tmpNfts.push(newSample);
-              setNft(tmpNfts)
-              notifications.show({
-                title: 'Succes',
-                message: "félicitation, votre sample a bien été ajouté ! 🤥",
-                color: 'green',
-                style: { backgroundColor: 'white' }
-              })
-              console.log("okok")
+            const newSample: Sample = {
+              title: title,
+              price: price,
+              description: description,
+              sample: uploadedFileSample,
+              numberEdition: quantity,
+              sampleUrl: '',
+              imageUrl: '',
+              tags: [""],
+            }
+            tmpNfts && tmpNfts.push(newSample);
+            setNft(tmpNfts)
+            notifications.show({
+              title: 'Succes',
+              message: "félicitation, votre sample a bien été ajouté ! 🤥",
+              color: 'green',
+              style: { backgroundColor: 'white' }
+            })
           }
         })
         .catch((err) => {
@@ -123,7 +124,7 @@ export const ScreenOne = ({ nft, setNft }: { nft: Sample[], setNft: any }) => {
             overflow: 'auto',
           }}
         >
-          {nft ? nft.map((nf: Sample, index) => (
+          {nft ? nft.map((nf, index) => (
             <Card key={index} nft={nf} />
           )).reverse() : <>Vous ne possedez pas encore de nft</>}
         </Flex>

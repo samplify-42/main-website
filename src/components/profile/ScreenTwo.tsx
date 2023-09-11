@@ -56,7 +56,7 @@ export const ScreenTwo = ({ nft, setNft }: { nft: Sample[], setNft: any }) => {
       formData.append('numberEdition', quantity);
       formData.append('price', price);
       formData.append('sample', uploadedFileSample);
-      // formData.append('cover', uploadedFileImage);
+      formData.append('cover', uploadedFileImage as File);
       formData.append('tags', 'niska');
       formData.append('tags', 'rap');
       setIsLoading(true);
@@ -73,6 +73,8 @@ export const ScreenTwo = ({ nft, setNft }: { nft: Sample[], setNft: any }) => {
                 description: description,
                 sample: uploadedFileSample,
                 numberEdition: quantity,
+                sampleUrl: '',
+                imageUrl: '',
                 tags: [""],
               }
               tmpNfts && tmpNfts.push(newSample);
@@ -83,7 +85,6 @@ export const ScreenTwo = ({ nft, setNft }: { nft: Sample[], setNft: any }) => {
                 color: 'green',
                 style: { backgroundColor: 'white' }
               })
-              console.log("okok")
           }
         })
         .catch((err) => {

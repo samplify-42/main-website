@@ -9,12 +9,12 @@ import {
 } from "@mantine/core";
 import { notifications } from '@mantine/notifications';
 import { useMediaQuery } from '@mantine/hooks';
-import { useNavigate } from "react-router-dom";
 import { setCookie } from "../utils/Cookies";
 import { AxiosService } from "../utils/AxiosService";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-
+  
   const navigate = useNavigate();
 
   const Login = async(username:string,password:string)=>{
