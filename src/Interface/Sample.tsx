@@ -4,5 +4,7 @@ export type Sample = {
     numberEdition: string,
     price: string,
     sample: File,
-    tags: string[]
+    tags: string[],
+    sampleUrl: string,
+    imageUrl: string
 }

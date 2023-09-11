@@ -9,21 +9,53 @@ import {
 } from "@mantine/core";
 import { notifications } from '@mantine/notifications';
 import { useMediaQuery } from '@mantine/hooks';
+import { setCookie } from "../utils/Cookies";
+import { AxiosService } from "../utils/AxiosService";
 import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
+  
+  const navigate = useNavigate();
+
+  const Login = async(username:string,password:string)=>{
+    //@ts-ignore
+    await AxiosService("POST","/auth/login", {username, password})
+    .then(async (res: any )=>{
+      if (res.message === 'Login successful') {
+        await setCookie("token",res.token,"/")
+        setIsLoading(false)
+        navigate('/profile')
+        window.location.reload()
+      } else if (res.message === 'Incorrect password') {
+        notifications.show({
+          title: 'Incorect',
+          message: 'Mot de pass incorrect 🤥',
+          color: 'red',
+          style: { backgroundColor: 'white' }
+        })
+        setIsLoading(false)
+      } else {
+        notifications.show({
+          title: 'Incorect',
+          message: 'Utilisateur inconnu 🤥',
+          color: 'red',
+          style: { backgroundColor: 'white' }
+        })
+        setIsLoading(false)
+      }
+    }).catch((err: any)=>{
+      console.log(err)
+    })
+  }
 
   const matches = useMediaQuery('(min-width: 900px');
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    walletNumber: "",
   });
 
   const [isLoading, setIsLoading] = useState(false)
-
-  const navigate = useNavigate();
 
   const handleInputChange = (event: any) => {
     const { name, value, type, checked } = event.currentTarget;
@@ -35,20 +67,11 @@ export const Login = () => {
   };
 
   const handleSubmit = (event: any) => {
+    setIsLoading(true)
     event.preventDefault();
     if (formData) {
-      console.log(formData)
       setIsLoading(true)
-      setTimeout(function () {
-        notifications.show({
-          title: 'Bienvenue',
-          message: 'Connecté 🤥',
-          color: 'green',
-          style: { backgroundColor: 'white' }
-        })
-        navigate('/home')
-        setIsLoading(false);
-      }, 1000);
+      Login(formData.email, formData.password)
     } else
       notifications.show({
         title: 'Incorect',
@@ -94,12 +117,12 @@ export const Login = () => {
             <Flex direction={'column'}
               style={{ justifyContent: 'center' }}>
               <Input
-                icon={'E'}
+                icon={'U'}
                 size="md"
                 required
                 name="email"
-                type="email"
-                placeholder="Email"
+                type="text"
+                placeholder="Username"
                 value={formData.email}
                 onChange={handleInputChange}
                 style={{ marginTop: 15 }}
@@ -117,27 +140,15 @@ export const Login = () => {
                 style={{ marginTop: 15 }}
                 radius="xl"
               />
-
-              <Input
-                icon={'W'}
-                size="md"
-                required
-                name="walletNumber"
-                placeholder="Numéro de wallet"
-                value={formData.walletNumber}
-                onChange={handleInputChange}
-                style={{ marginTop: 15 }}
-                radius="xl"
-              />
             </Flex>
 
             <div style={{ marginTop: 20 }}>
               <Button loading={isLoading} type="submit" radius="xl" fullWidth>
-                S'inscrire
+                Se connecter
               </Button>
             </div>
             <Flex direction='column' style={{ marginTop: '20px' }} >
-              <Text>Déjà inscrit ? <a href="login">Se connecter</a></Text>
+              <Text>Déjà inscrit ? <a href="login">S'inscrire</a></Text>
               <Text>Mot de passe <a href="foget-password">oublié</a></Text>
             </Flex>
           </div>
@@ -172,12 +183,12 @@ export const Login = () => {
             <Flex direction={'column'}
               style={{ justifyContent: 'center' }}>
               <Input
-                icon={'E'}
+                icon={'U'}
                 size="md"
                 required
                 name="email"
-                type="email"
-                placeholder="Email"
+                type="text"
+                placeholder="Username"
                 value={formData.email}
                 onChange={handleInputChange}
                 style={{ marginTop: 15 }}
@@ -191,18 +202,6 @@ export const Login = () => {
                 name="password"
                 placeholder="Mot de passe"
                 value={formData.password}
-                onChange={handleInputChange}
-                style={{ marginTop: 15 }}
-                radius="xl"
-              />
-
-              <Input
-                icon={'W'}
-                size="md"
-                required
-                name="walletNumber"
-                placeholder="Numéro de wallet"
-                value={formData.walletNumber}
                 onChange={handleInputChange}
                 style={{ marginTop: 15 }}
                 radius="xl"

@@ -1,4 +1,4 @@
-import { Button, Flex, Text, Modal, Group } from "@mantine/core";
+import { Button, Flex, Text, Modal, Group, Image } from "@mantine/core";
 import { Sample } from "../../Interface/Sample";
 import { useDisclosure } from "@mantine/hooks";
 
@@ -10,7 +10,6 @@ export const Card = ({ nft }: { nft: Sample }) => {
 		close()
 	}
 
-	console.log(nft)
 	return (
 		<Flex direction={'column'} style={{
 			border: 'solid 2px gray',
@@ -33,6 +32,11 @@ export const Card = ({ nft }: { nft: Sample }) => {
 						return (tag)
 				})}</Text>
 			</Flex>
+			<br />
+			<Flex style={{ justifyContent: 'center' }}>
+				<audio crossOrigin='anonymous' controls src={nft.sampleUrl}></audio>
+			</Flex>
+
 			<Flex style={{
 				width: '100%',
 			}}>

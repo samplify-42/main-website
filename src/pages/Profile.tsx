@@ -5,14 +5,14 @@ import { ScreenOne } from "../components/profile/ScreenOne";
 import { ScreenTwo } from "../components/profile/ScreenTwo";
 import Navbar from "../components/navbar/NavBar";
 import { AxiosService } from "../utils/AxiosService";
-import { setCookie } from "../utils/Cookies";
 import { Sample } from "../Interface/Sample";
 
-export const Profile = () => {
+export const Profile = ({user}:{user:any}) => {
   const initialScreen = parseInt(localStorage.getItem("screen") || "0", 10);
   const [screen, setScreen] = useState(initialScreen);
   const [showSidebar, setShowSidebar] = useState(window.innerWidth >= 900);
   const [nft, setNft] = useState<Sample[]>([])
+  const [nftCreator, setNftCreator] = useState<Sample[]>([])
 
   const handleButtonOnePress = () => {
     setScreen(0);
@@ -25,23 +25,23 @@ export const Profile = () => {
   useEffect(() => {
     AxiosService("GET","/nft?owner=1")
     .then((response) => {
-      setNft(response.nft)
+      console.log(response)
+      setNftCreator(response.nft.reverse())
     })
     .catch((error) => {
       console.log(error);
     });
   }, [])
 
-  const Login= async(username:string,password:string)=>{
-    //@ts-ignore
-    AxiosService("POST","/auth/login", {username, password})
-    .then((res)=>{
-      setCookie("token",res.token,"/")
-    }).catch((err)=>{
-      // TODO: redirect to login page
-      console.log(err)
+  useEffect(() => {
+    AxiosService("GET","/nft?creator=1")
+    .then((response) => {
+      setNft(response.nft)
     })
-  }
+    .catch((error) => {
+      console.log(error);
+    });
+  }, [])
 
   useEffect(() => {
     localStorage.setItem("screen", screen.toString());
@@ -67,7 +67,7 @@ export const Profile = () => {
       }}
     >
 			<Navbar />
-      {showSidebar && <Sidebar />}
+      {showSidebar && <Sidebar user={user} />}
       <Flex
         direction="column"
         style={{
@@ -75,11 +75,6 @@ export const Profile = () => {
           height: "100%",
         }}
       >
-        <Button style={{
-          width:"100px",
-          height:"30px",
-          alignSelf:'center'
-        }} onClick={(()=>{Login("test","1234567890")})}>Login</Button>
         <Flex
           style={{
             width: "100%",
@@ -109,10 +104,10 @@ export const Profile = () => {
             color="dark"
             uppercase
           >
-            Mes achats
+            Mes créations
           </Button>
         </Flex>
-        {screen === 0 ? <ScreenOne nft={nft} setNft={setNft}  /> : <ScreenTwo />}
+        {screen === 0 ? <ScreenOne nft={nft} setNft={setNft}  /> : <ScreenTwo nft={nftCreator} setNft={setNftCreator} />}
       </Flex>
     </Flex>
   );
