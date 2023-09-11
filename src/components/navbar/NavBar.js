@@ -17,7 +17,6 @@ function Navbar() {
         </a>
       </div>
       <a className="div_marketplace_navbar">
-        <button style={{fontWeight: 'bold'}}>MarketPlace</button>
       </a>
       <div style={{justifyContent:'space-around'}} className="div_navigation_navbar">
         <Button onClick={() => navigate('/home')}>

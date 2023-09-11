@@ -23,7 +23,7 @@ export const CardBuy = ({ nft }: { nft: Sample }) => {
 			position: 'relative'
 		}}>
 			<Text><Text color="gray">Titre: </Text>{nft.title}</Text>
-			<Text><Text color="gray">Prix: </Text>{nft.price} €</Text>
+			<Text><Text color="gray">Prix: </Text>{nft.price} Etherum</Text>
 			<Text><Text color="gray">Quantity: </Text>{nft.numberEdition}</Text>
 			<Text><Text color="gray">Description: </Text>{nft.description}</Text>
 			<Flex direction={'row'}>
