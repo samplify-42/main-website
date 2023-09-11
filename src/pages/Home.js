@@ -24,11 +24,10 @@ export const Home = () => {
       <Flex
         direction={"column"}
         style={{
-          width: "100vw",
+          width: "100%",
           height: "100vh",
           justifyContent: "center",
           alignItems: "center",
-          position:'relative'
         }}
       >
         <Flex>
@@ -38,10 +37,8 @@ export const Home = () => {
         </Flex>
         <Flex
           style={{
-            margin: 0,
-            padding: 0,
-            width: "100%",
-            height: "100%",
+            width: "100vw",
+            height: "100vh",
             position: "absolute",
             backgroundColor: "black",
             opacity: "40%",
